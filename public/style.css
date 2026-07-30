@@ -1,0 +1,329 @@
+:root {
+  --paper: #F7F2E7;
+  --paper-dark: #EDE4D0;
+  --ink: #22314A;
+  --ink-soft: #4B5B72;
+  --marigold: #E8A33D;
+  --marigold-dark: #C9812A;
+  --teal: #1F6F5C;
+  --rust: #C1443D;
+  --radius: 14px;
+  --shadow: 0 2px 10px rgba(34, 49, 74, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', sans-serif;
+  padding-bottom: 40px;
+}
+
+h1, h2 {
+  font-family: 'Fraunces', serif;
+  margin: 0 0 12px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 16px 20px;
+}
+
+.logo {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn {
+  background: var(--marigold);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  font-size: 1.3rem;
+nano ~/duka-buddy/public/style.cssnano ~/duka-buddy/public/style.css  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+nano ~/duka-buddy/public/style.css
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 20px 16px;
+}
+
+/* Snapshot cards */
+.snapshot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.snapshot-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 14px 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border-bottom: 4px solid var(--paper-dark);
+}
+
+.snapshot-card.profit { border-bottom-color: var(--teal); }
+.snapshot-card.sales { border-bottom-color: var(--marigold); }
+.snapshot-card.expenses { border-bottom-color: var(--rust); }
+
+.snap-icon { font-size: 1.6rem; }
+.snap-label {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+  margin: 4px 0;
+}
+.snap-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+/* Big action buttons */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.action-btn {
+  border: none;
+  border-radius: var(--radius);
+  padding: 22px 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  color: white;
+  min-height: 88px;
+}
+
+.action-btn.sale { background: var(--teal); }
+.action-btn.expense { background: var(--rust); }
+.action-icon { font-size: 2rem; }
+
+/* Week trend bars */
+.week-trend { margin-bottom: 28px; }
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  background: white;
+  border-radius: var(--radius);
+  padding: 12px;
+  box-shadow: var(--shadow);
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+.bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--marigold);
+  min-height: 4px;
+}
+.bar.negative { background: var(--rust); }
+.bar-day {
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Advice section */
+.advice-section { margin-bottom: 28px; }
+
+.advice-btn {
+  width: 100%;
+  border: none;
+  background: var(--marigold);
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 18px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: var(--shadow);
+}
+
+.ticket {
+  position: relative;
+  background: white;
+  margin-top: 14px;
+  padding: 24px 18px 16px;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.ticket-perf {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background:
+    radial-gradient(circle at 8px 0px, transparent 6px, white 7px) top left / 16px 10px repeat-x;
+  transform: translateY(-1px);
+}
+
+#speakAdviceBtn {
+  margin-top: 10px;
+  background: var(--paper-dark);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* History */
+.history h2 { font-size: 1.1rem; }
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  font-size: 0.9rem;
+}
+.history-item .cat { display: flex; align-items: center; gap: 8px; }
+.history-item .amt { font-family: 'IBM Plex Mono', monospace; font-weight: 600; }
+.history-item .amt.expense { color: var(--rust); }
+.history-item .amt.sale { color: var(--teal); }
+.empty-note { color: var(--ink-soft); font-size: 0.9rem; padding: 10px 4px; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(34,49,74,0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 10;
+}
+.modal-overlay[hidden] {
+  display: none;
+}
+.modal {
+  background: var(--paper);
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px 20px 0 0;
+  padding: 24px 20px 28px;
+}
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 14px 0 20px;
+}
+.category-btn {
+  border: 2px solid var(--paper-dark);
+  background: white;
+  border-radius: 12px;
+  padding: 14px 4px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.category-btn span.label { font-size: 0.65rem; font-weight: 600; color: var(--ink-soft); }
+.category-btn.selected { border-color: var(--marigold); background: #FCEFD9; }
+
+.amount-label { font-weight: 600; font-size: 0.9rem; }
+.amount-input {
+  width: 100%;
+  font-size: 1.6rem;
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--paper-dark);
+  margin-top: 6px;
+}
+
+.modal-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+.modal-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.modal-btn.cancel { background: var(--paper-dark); color: var(--ink); }
+.modal-btn.save { background: var(--teal); color: white; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+/* Desktop / larger screens: modal becomes a centered dialog instead of a bottom sheet */
+@media (min-width: 640px) {
+  .modal-overlay {
+    align-items: center;
+  }
+  .modal {
+    border-radius: 20px;
+    max-width: 420px;
+    max-height: 80vh;
+  }
+  main {
+    padding: 32px 16px;
+  }
+}
+
+/* Very small phones: tighten spacing so nothing feels cramped */
+@media (max-width: 360px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .action-btn {
+    padding: 18px 6px;
+  }
+}

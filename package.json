@@ -1,0 +1,14 @@
+{
+  "name": "duka-buddy",
+  "version": "1.0.0",
+  "description": "A simple daily business tracker and advice tool for small-shop sellers, designed for low-literacy accessibility.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5"
+  }
+}

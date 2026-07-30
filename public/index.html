@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duka Buddy — Your Daily Shop Helper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@500;600;700&family=IBM+Plex+Mono:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">🧺 <span>Duka Buddy</span></div>
+  <button id="speakSummaryBtn" class="icon-btn" aria-label="Listen to today's summary" title="Listen">🔊</button>
+</header>
+
+<main>
+
+  <!-- Today's snapshot -->
+  <section class="snapshot">
+    <div class="snapshot-card profit">
+      <div class="snap-icon">💰</div>
+      <div class="snap-label">Today's Profit</div>
+      <div class="snap-value" id="todayProfit">0</div>
+    </div>
+    <div class="snapshot-card sales">
+      <div class="snap-icon">📈</div>
+      <div class="snap-label">Sales</div>
+      <div class="snap-value" id="todaySales">0</div>
+    </div>
+    <div class="snapshot-card expenses">
+      <div class="snap-icon">📉</div>
+      <div class="snap-label">Expenses</div>
+      <div class="snap-value" id="todayExpenses">0</div>
+    </div>
+  </section>
+
+  <!-- Big action buttons -->
+  <section class="actions">
+    <button class="action-btn sale" id="addSaleBtn">
+      <span class="action-icon">🪙</span>
+      <span class="action-text">Add Sale</span>
+    </button>
+    <button class="action-btn expense" id="addExpenseBtn">
+      <span class="action-icon">🧾</span>
+      <span class="action-text">Add Expense</span>
+    </button>
+  </section>
+
+  <!-- Week trend -->
+  <section class="week-trend">
+    <h2>This Week</h2>
+    <div class="bars" id="weekBars"></div>
+  </section>
+
+  <!-- Advice ticket -->
+  <section class="advice-section">
+    <button class="advice-btn" id="getAdviceBtn">
+      <span class="action-icon">💡</span>
+      <span class="action-text">Get Today's Tip</span>
+    </button>
+    <div class="ticket" id="adviceTicket" hidden>
+      <div class="ticket-perf"></div>
+      <p id="adviceText">Loading...</p>
+      <button id="speakAdviceBtn" class="icon-btn" aria-label="Listen to tip">🔊 Listen</button>
+    </div>
+  </section>
+
+  <!-- Recent transactions -->
+  <section class="history">
+    <h2>Recent Entries</h2>
+    <div id="historyList" class="history-list"></div>
+  </section>
+
+</main>
+
+<!-- Entry Modal -->
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal">
+    <h2 id="modalTitle">Add Sale</h2>
+
+    <div class="category-grid" id="categoryGrid">
+      <!-- filled by JS -->
+    </div>
+
+    <label class="amount-label" for="amountInput">Amount</label>
+    <input type="number" id="amountInput" inputmode="decimal" placeholder="0" class="amount-input" min="0" step="0.01">
+
+    <div class="modal-buttons">
+      <button id="cancelBtn" class="modal-btn cancel">✖ Cancel</button>
+      <button id="saveBtn" class="modal-btn save">✔ Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
