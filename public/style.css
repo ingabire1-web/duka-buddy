@@ -238,7 +238,37 @@ main {
 .history-item .amt.expense { color: var(--rust); }
 .history-item .amt.sale { color: var(--teal); }
 .empty-note { color: var(--ink-soft); font-size: 0.9rem; padding: 10px 4px; }
-
+/* Filter + search */
+.filter-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.filter-btn {
+  flex: 1;
+  border: 2px solid var(--paper-dark);
+  background: white;
+  border-radius: 20px;
+  padding: 10px 6px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.filter-btn.active {
+  border-color: var(--marigold);
+  background: #FCEFD9;
+  color: var(--ink);
+}
+.search-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--paper-dark);
+  margin-bottom: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+}
 /* Modal */
 .modal-overlay {
   position: fixed;
