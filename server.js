@@ -10,6 +10,12 @@ const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemi
 
 app.use(cors());
 app.use(express.json());
+const os = require('os');
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  res.setHeader('X-Served-By', os.hostname());
+  next();
+});
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Health check - useful for load balancer checks
