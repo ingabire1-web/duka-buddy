@@ -134,7 +134,7 @@ API keys are never committed to this repository — .env is excluded via .gitign
 All sensitive credentials for grading are provided separately as instructed, not in this README or the public repo.
 Demo Video
 
-[Link to demo video — add here]
+https://www.loom.com/share/d67f5538e00146e2a756dbfec6bd538e
 
 License / Acknowledgements
 
