@@ -14,6 +14,9 @@
   <div class="logo">🧺 <span>Duka Buddy</span></div>
   <button id="speakSummaryBtn" class="icon-btn" aria-label="Listen to today's summary" title="Listen">🔊</button>
 </header>
+<div id="offlineBanner" class="offline-banner" hidden>
+  📡 You're offline. Sales/expenses still save, but tips need internet.
+</div>
 
 <main>
 
@@ -69,8 +72,17 @@
 
   <!-- Recent transactions -->
   <section class="history">
-    <h2>Recent Entries</h2>
-    <div id="historyList" class="history-list"></div>
+  <h2>Your Entries</h2>
+
+  <div class="filter-row">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="sale">🪙 Sales</button>
+    <button class="filter-btn" data-filter="expense">🧾 Expenses</button>
+  </div>
+
+  <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search by category (e.g. food, rent)">
+
+  <div id="historyList" class="history-list"></div>
   </section>
 
 </main>
