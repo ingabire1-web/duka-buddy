@@ -183,13 +183,23 @@ document.getElementById('addExpenseBtn').addEventListener('click', () => openMod
 document.getElementById('cancelBtn').addEventListener('click', closeModal);
 
 document.getElementById('saveBtn').addEventListener('click', () => {
-  const amount = parseFloat(document.getElementById('amountInput').value);
-  if (!amount || amount <= 0) {
-    alert('Please enter an amount greater than 0.');
+  const rawValue = document.getElementById('amountInput').value;
+  const amount = parseFloat(rawValue);
+
+  if (rawValue.trim() === '' || isNaN(amount)) {
+    alert('Please enter a number for the amount.');
+    return;
+  }
+  if (amount <= 0) {
+    alert('Amount must be greater than 0.');
+    return;
+  }
+  if (amount > 1000000000) {
+    alert('That amount looks too large. Please check and try again.');
     return;
   }
   if (!selectedCategory) {
-    alert('Please choose a category icon.');
+    alert('Please choose a category icon first.');
     return;
   }
 
@@ -204,7 +214,6 @@ document.getElementById('saveBtn').addEventListener('click', () => {
   renderAll();
   closeModal();
 });
-
 // ---- Text to speech (browser-native, no API key needed) ----
 
 function speak(text) {
@@ -240,6 +249,12 @@ document.getElementById('getAdviceBtn').addEventListener('click', async () => {
   const ticket = document.getElementById('adviceTicket');
   const adviceText = document.getElementById('adviceText');
   ticket.hidden = false;
+
+  if (!navigator.onLine) {
+    adviceText.textContent = "You're offline. Connect to the internet to get today's tip.";
+    return;
+  }
+
   adviceText.textContent = 'Thinking of a good tip for you...';
 
   const today = todayStr();
@@ -248,6 +263,9 @@ document.getElementById('getAdviceBtn').addEventListener('click', async () => {
   const todayExpenses = todays.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
   const todayProfit = todaySales - todayExpenses;
   const weekProfits = getWeekProfits().map(d => d.profit);
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 15000);
 
   try {
     const res = await fetch('/api/advice', {
@@ -260,12 +278,28 @@ document.getElementById('getAdviceBtn').addEventListener('click', async () => {
         weekProfits,
         topCategory: topCategoryToday(),
       }),
+      signal: controller.signal,
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error || 'Failed to get advice');
+    clearTimeout(timeoutId);
+
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      throw new Error('bad_response');
+    }
+
+    if (!res.ok) {
+      throw new Error(data.error || 'server_error');
+    }
     adviceText.textContent = data.advice;
   } catch (err) {
-    adviceText.textContent = "Couldn't reach the advice service. Please check your internet and try again.";
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      adviceText.textContent = "That took too long. Please try again in a moment.";
+    } else {
+      adviceText.textContent = "Couldn't get a tip right now. Please try again shortly.";
+    }
   }
 });
 
