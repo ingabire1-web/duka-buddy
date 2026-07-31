@@ -309,6 +309,21 @@ main {
 }
 .category-btn span.label { font-size: 0.65rem; font-weight: 600; color: var(--ink-soft); }
 .category-btn.selected { border-color: var(--marigold); background: #FCEFD9; }
+.category-btn { position: relative; }
+.category-btn.add-btn {
+  border-style: dashed;
+  color: var(--ink-soft);
+}
+.delete-cat-btn {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 0.7rem;
+  color: var(--rust);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 4px;
+}
 
 .amount-label { font-weight: 600; font-size: 0.9rem; }
 .amount-input {
