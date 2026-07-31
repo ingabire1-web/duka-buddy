@@ -91,17 +91,32 @@ function categoryMeta(key) {
   return CATEGORIES.find(c => c.key === key) || CATEGORIES[CATEGORIES.length - 1];
 }
 
+let currentFilter = 'all';
+let currentSearch = '';
+
 function renderHistory() {
   const list = document.getElementById('historyList');
   list.innerHTML = '';
-  const recent = [...transactions].sort((a, b) => b.id - a.id).slice(0, 8);
 
-  if (recent.length === 0) {
-    list.innerHTML = '<div class="empty-note">No entries yet. Tap Add Sale or Add Expense to begin.</div>';
+  let filtered = [...transactions].sort((a, b) => b.id - a.id);
+
+  if (currentFilter !== 'all') {
+    filtered = filtered.filter(t => t.type === currentFilter);
+  }
+  if (currentSearch.trim()) {
+    const q = currentSearch.trim().toLowerCase();
+    filtered = filtered.filter(t => categoryMeta(t.category).label.toLowerCase().includes(q));
+  }
+
+  if (filtered.length === 0) {
+    const msg = transactions.length === 0
+      ? 'No entries yet. Tap Add Sale or Add Expense to begin.'
+      : 'No entries match your filter or search.';
+    list.innerHTML = `<div class="empty-note">${msg}</div>`;
     return;
   }
 
-  recent.forEach(t => {
+  filtered.slice(0, 30).forEach(t => {
     const meta = categoryMeta(t.category);
     const row = document.createElement('div');
     row.className = 'history-item';
@@ -112,6 +127,20 @@ function renderHistory() {
     list.appendChild(row);
   });
 }
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderHistory();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  currentSearch = e.target.value;
+  renderHistory();
+});
 
 function renderAll() {
   renderSnapshot();
@@ -244,5 +273,15 @@ document.getElementById('speakAdviceBtn').addEventListener('click', () => {
   speak(document.getElementById('adviceText').textContent);
 });
 
+// ---- Offline detection ----
+
+function updateOfflineBanner() {
+  const banner = document.getElementById('offlineBanner');
+  banner.hidden = navigator.onLine;
+}
+window.addEventListener('online', updateOfflineBanner);
+window.addEventListener('offline', updateOfflineBanner);
+
 // ---- Init ----
+updateOfflineBanner();
 renderAll();
