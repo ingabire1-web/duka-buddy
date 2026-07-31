@@ -1,7 +1,6 @@
 // ---- Data model ----
 // Each transaction: { id, type: 'sale'|'expense', category, amount, date (YYYY-MM-DD) }
-
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   { key: 'food', icon: '🍞', label: 'Food' },
   { key: 'clothes', icon: '👕', label: 'Clothes' },
   { key: 'tools', icon: '🔧', label: 'Tools' },
@@ -11,6 +10,24 @@ const CATEGORIES = [
   { key: 'rent', icon: '🏠', label: 'Rent' },
   { key: 'other', icon: '📦', label: 'Other' },
 ];
+
+const CUSTOM_CATEGORY_KEY = 'duka_buddy_custom_categories';
+
+function loadCustomCategories() {
+  try {
+    return JSON.parse(localStorage.getItem(CUSTOM_CATEGORY_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomCategories(list) {
+  localStorage.setItem(CUSTOM_CATEGORY_KEY, JSON.stringify(list));
+}
+
+function allCategories() {
+  return [...DEFAULT_CATEGORIES, ...loadCustomCategories()];
+}
 
 const STORAGE_KEY = 'duka_buddy_transactions';
 
@@ -88,7 +105,7 @@ function renderWeekBars() {
 }
 
 function categoryMeta(key) {
-  return CATEGORIES.find(c => c.key === key) || CATEGORIES[CATEGORIES.length - 1];
+  return allCategories().find(c => c.key === key) || DEFAULT_CATEGORIES[DEFAULT_CATEGORIES.length - 1];
 }
 
 let currentFilter = 'all';
@@ -150,19 +167,36 @@ function renderAll() {
 
 // ---- Modal handling ----
 
-function openModal(type) {
-  currentModalType = type;
-  selectedCategory = null;
-  document.getElementById('modalTitle').textContent = type === 'sale' ? 'Add Sale' : 'Add Expense';
-  document.getElementById('amountInput').value = '';
-
+function renderCategoryGrid() {
   const grid = document.getElementById('categoryGrid');
   grid.innerHTML = '';
-  CATEGORIES.forEach(cat => {
+  const customKeys = new Set(loadCustomCategories().map(c => c.key));
+
+  allCategories().forEach(cat => {
     const btn = document.createElement('button');
     btn.className = 'category-btn';
     btn.dataset.key = cat.key;
+    if (cat.key === selectedCategory) btn.classList.add('selected');
+
     btn.innerHTML = `${cat.icon}<span class="label">${cat.label}</span>`;
+
+    if (customKeys.has(cat.key)) {
+      const delBtn = document.createElement('span');
+      delBtn.className = 'delete-cat-btn';
+      delBtn.textContent = '✕';
+      delBtn.title = 'Remove this category';
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (confirm(`Remove "${cat.label}"? This won't delete past entries, just the icon option.`)) {
+          const updated = loadCustomCategories().filter(c => c.key !== cat.key);
+          saveCustomCategories(updated);
+          if (selectedCategory === cat.key) selectedCategory = null;
+          renderCategoryGrid();
+        }
+      });
+      btn.appendChild(delBtn);
+    }
+
     btn.addEventListener('click', () => {
       selectedCategory = cat.key;
       document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
@@ -170,6 +204,33 @@ function openModal(type) {
     });
     grid.appendChild(btn);
   });
+
+  const addBtn = document.createElement('button');
+  addBtn.className = 'category-btn add-btn';
+  addBtn.innerHTML = `➕<span class="label">Add New</span>`;
+  addBtn.addEventListener('click', () => {
+    const label = prompt('Name this category (e.g. "Phone Repairs", "Fabrics"):');
+    if (!label || !label.trim()) return;
+    const icon = prompt('Pick an emoji for it (e.g. 📱, 🧵, 🐐):', '📌');
+    if (!icon || !icon.trim()) return;
+
+    const key = 'custom_' + label.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_') + '_' + Date.now();
+    const updated = loadCustomCategories();
+    updated.push({ key, icon: icon.trim(), label: label.trim() });
+    saveCustomCategories(updated);
+    selectedCategory = key;
+    renderCategoryGrid();
+  });
+  grid.appendChild(addBtn);
+}
+
+function openModal(type) {
+  currentModalType = type;
+  selectedCategory = null;
+  document.getElementById('modalTitle').textContent = type === 'sale' ? 'Add Sale' : 'Add Expense';
+  document.getElementById('amountInput').value = '';
+
+  renderCategoryGrid();
 
   document.getElementById('modalOverlay').hidden = false;
 }
