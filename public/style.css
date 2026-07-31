@@ -25,6 +25,14 @@ h1, h2 {
   font-family: 'Fraunces', serif;
   margin: 0 0 12px;
 }
+.offline-banner {
+  background: var(--rust);
+  color: white;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
 
 .topbar {
   display: flex;
