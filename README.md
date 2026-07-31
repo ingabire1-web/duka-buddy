@@ -179,3 +179,14 @@ bash
 for i in {1..10}; do curl -sI http://<Lb01_public_IP>/ | grep -i "X-Served-By"; done
 
 You should see the hostname alternate between your two web servers across the 10 requests — clean, undeniable proof of load balancing, and it's just a few lines of terminal output.
+on my end here is the output i got 
+x-served-by: 7125-web-02
+x-served-by: 7125-web-01
+x-served-by: 7125-web-02
+x-served-by: 7125-web-01
+x-served-by: 7125-web-02
+x-served-by: 7125-web-01
+x-served-by: 7125-web-02
+x-served-by: 7125-web-01
+x-served-by: 7125-web-02
+x-served-by: 7125-web-01
