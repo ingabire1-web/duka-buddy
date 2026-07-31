@@ -7,7 +7,7 @@ Why this project exists
 Many small business owners in rural areas keep no formal records of their daily sales and expenses, making it hard to spot trends, plan ahead, or get useful advice. Existing bookkeeping apps assume comfortable literacy and desktop-style interaction. Duka Buddy is designed around icons and voice instead of dense text and forms, so it can genuinely serve people who might otherwise be excluded from digital tools.
 
 Features
-Add Sale / Add Expense — large icon-based buttons, pick a category icon (food, clothes, tools, etc.) and enter an amount. No reading-heavy forms.
+Add Sale / Add Expense — large icon-based buttons, pick a category icon (food, clothes, tools, etc.) and enter an amount. 
 Today's Snapshot — profit, sales, and expenses shown clearly with color coding.
 7-Day Trend — simple bar chart of daily profit over the past week.
 Get Today's Tip — sends the day's stats to an AI model (Google Gemini) which returns one short, plain-language, encouraging suggestion.
@@ -33,7 +33,7 @@ cp .env.example .env
 
 Open .env and add your real Gemini API key:
 
-GEMINI_API_KEY=your_actual_key_here
+GEMINI_API_KEY=Your-GEMINI-API-KEY
 PORT=3000
 
 Run it:
@@ -51,7 +51,7 @@ Tap Get Today's Tip for AI-generated advice based on your day's numbers
 Tap any 🔊 icon to hear a summary or tip read aloud
 Part Two: Deployment
 
-The app is deployed across two identical web servers, with a load balancer distributing traffic between them.
+The app is deployed across two different web servers, with a load balancer distributing traffic between them.
 
 Architecture:
 
@@ -112,11 +112,11 @@ Verifying load balancing works
 Each server adds an X-Served-By response header identifying itself (see server.js). Running this from any machine confirms traffic is being split between both servers:
 
 bash
-for i in {1..10}; do curl -sI http://<Lb01_public_IP>/ | grep -i "X-Served-By"; done
+for i in {1..10}; do curl -sI http://3.84.234.235/ | grep -i "X-Served-By"; done
 
 Expected result: the hostname alternates between the two web servers across the 10 requests, confirming round-robin distribution is working correctly.
 
-The app is accessible at: http://<Lb01_public_IP>
+The app is accessible at: http://3.84.234.235
 
 API Credits
 
